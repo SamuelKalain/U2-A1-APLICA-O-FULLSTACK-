@@ -3,41 +3,60 @@
 
 const express = require("express");
 const router = express.Router();
-const Products = require("../models/productModel.js");
-const auth = require("../middleware/auth");
+const {
+    createProduct,
+    getAllProducts,
+    getProductById,
+    updateProduct,
+    deleteProduct
+} = require("../models/productModel");
 
 // Criar produto
-router.post("/", auth, async (req, res) => {
-  try {
-    const data = await Product.create(req.body);
-    res.status(201).json(data);
-  } catch (e) {
-    res.status(400).json({ error: e.message });
-  }
+router.post("/", (req, res) => {
+    const { nome, descricao, preco, categoria } = req.body;
+
+    if (!nome || !preco || !categoria) {
+        return res.status(400).json({ error: "Campos obrigatórios: nome, preco, categoria" });
+    }
+
+    createProduct(nome, descricao, preco, categoria, (err, product) => {
+        if (err) return res.status(500).json({ error: "Erro ao criar produto" });
+        res.status(201).json(product);
+    });
 });
 
-// Listar todos
-router.get("/", auth, async (req, res) => {
-  const data = await Product.find();
-  res.json(data);
+// Listar
+router.get("/", (req, res) => {
+    getAllProducts((err, products) => {
+        if (err) return res.status(500).json({ error: "Erro ao listar produtos" });
+        res.json(products);
+    });
 });
 
-// Buscar por ID
-router.get("/:id", auth, async (req, res) => {
-  const data = await Product.findById(req.params.id);
-  res.json(data);
+// Buscar 1
+router.get("/:id", (req, res) => {
+    getProductById(req.params.id, (err, product) => {
+        if (err) return res.status(500).json({ error: "Erro ao buscar produto" });
+        res.json(product);
+    });
 });
 
 // Atualizar
-router.put("/:id", auth, async (req, res) => {
-  const data = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(data);
+router.put("/:id", (req, res) => {
+    const { nome, descricao, preco, categoria } = req.body;
+
+    updateProduct(req.params.id, nome, descricao, preco, categoria, (err) => {
+        if (err) return res.status(500).json({ error: "Erro ao atualizar produto" });
+        res.json({ message: "Produto atualizado com sucesso" });
+    });
 });
 
 // Deletar
-router.delete("/:id", auth, async (req, res) => {
-  await Product.findByIdAndDelete(req.params.id);
-  res.json({ message: "Produto removido com sucesso." });
+router.delete("/:id", (req, res) => {
+    deleteProduct(req.params.id, (err) => {
+        if (err) return res.status(500).json({ error: "Erro ao deletar produto" });
+        res.json({ message: "Produto removido com sucesso" });
+    });
 });
 
 module.exports = router;

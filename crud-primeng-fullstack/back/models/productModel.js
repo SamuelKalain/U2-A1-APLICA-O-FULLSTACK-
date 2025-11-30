@@ -1,16 +1,41 @@
-// productModel.js - [Samuel Kalain]
+const db = require('../db/database');
 
-const mongoose = require("mongoose");
+function createProduct(nome, descricao, preco, categoria, callback) {
+    const query = `
+        INSERT INTO products (nome, descricao, preco, categoria)
+        VALUES (?, ?, ?, ?)
+    `;
+    db.run(query, [nome, descricao, preco, categoria], function(err) {
+        if (err) return callback(err);
+        callback(null, { id: this.lastID, nome, descricao, preco, categoria });
+    });
+}
 
-const ProductSchema = new mongoose.Schema({
-  nome: { type: String, required: true },
-  descricao: { type: String },
-  preco: { type: Number, required: true },
-  categoria: { 
-    type: String, 
-    enum: ["pizza", "bebida", "sobremesa"], 
-    required: true 
-  }
-}, { timestamps: true });
+function getAllProducts(callback) {
+    db.all("SELECT * FROM products", [], callback);
+}
 
-module.exports = mongoose.model("Product", ProductSchema);
+function getProductById(id, callback) {
+    db.get("SELECT * FROM products WHERE id = ?", [id], callback);
+}
+
+function updateProduct(id, nome, descricao, preco, categoria, callback) {
+    const query = `
+        UPDATE products
+        SET nome = ?, descricao = ?, preco = ?, categoria = ?
+        WHERE id = ?
+    `;
+    db.run(query, [nome, descricao, preco, categoria, id], callback);
+}
+
+function deleteProduct(id, callback) {
+    db.run("DELETE FROM products WHERE id = ?", [id], callback);
+}
+
+module.exports = {
+    createProduct,
+    getAllProducts,
+    getProductById,
+    updateProduct,
+    deleteProduct
+};

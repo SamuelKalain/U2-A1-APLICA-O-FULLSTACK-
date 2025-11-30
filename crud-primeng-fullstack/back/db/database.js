@@ -52,5 +52,17 @@ db.run(`
     )
 `);
 
+console.log('Tabela products criada');
+db.run(`
+    CREATE TABLE IF NOT EXISTS products (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT,
+        descricao TEXT,
+        preco REAL,
+        categoria TEXT
+    )
+`);
+
+
 
 module.exports = db
