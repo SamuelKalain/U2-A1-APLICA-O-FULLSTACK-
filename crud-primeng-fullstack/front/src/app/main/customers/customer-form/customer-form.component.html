@@ -1,0 +1,38 @@
+<div class="card">
+  <h2>{{ id ? 'Editar Cliente' : 'Novo Cliente' }}</h2>
+
+  <div class="p-fluid formgrid grid">
+
+    <div class="field col-6">
+      <label>Nome</label>
+      <input pInputText [(ngModel)]="customer.nome">
+    </div>
+
+    <div class="field col-6">
+      <label>Telefone</label>
+      <input pInputText [(ngModel)]="customer.telefone">
+    </div>
+
+    <div class="field col-4">
+      <label>CEP</label>
+      <input pInputText maxlength="8" [(ngModel)]="customer.cep" (keyup)="buscarCEP()">
+    </div>
+
+    <div class="field col-4">
+      <label>Estado</label>
+      <p-dropdown [options]="estados" [(ngModel)]="customer.estado" (onChange)="carregarCidades($event.value)"></p-dropdown>
+    </div>
+
+    <div class="field col-4">
+      <label>Cidade</label>
+      <p-dropdown [options]="cidades" [(ngModel)]="customer.cidade"></p-dropdown>
+    </div>
+
+    <div class="field col-12">
+      <label>Endereço</label>
+      <input pInputText [(ngModel)]="customer.endereco">
+    </div>
+  </div>
+
+  <button pButton label="Salvar" icon="pi pi-save" (click)="save()"></button>
+</div>

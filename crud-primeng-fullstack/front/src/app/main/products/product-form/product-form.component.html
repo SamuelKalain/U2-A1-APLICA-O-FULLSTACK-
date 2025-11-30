@@ -1,0 +1,32 @@
+<div class="card">
+  <h2>{{ id ? 'Editar Produto' : 'Novo Produto' }}</h2>
+
+  <div class="p-fluid formgrid grid">
+
+    <div class="field col-6">
+      <label>Nome</label>
+      <input pInputText [(ngModel)]="product.nome">
+    </div>
+
+    <div class="field col-6">
+      <label>Categoria</label>
+      <p-dropdown 
+        [options]="categorias"
+        [(ngModel)]="product.categoria">
+      </p-dropdown>
+    </div>
+
+    <div class="field col-12">
+      <label>Descrição</label>
+      <textarea pInputTextarea [(ngModel)]="product.descricao"></textarea>
+    </div>
+
+    <div class="field col-4">
+      <label>Preço</label>
+      <input type="number" pInputText [(ngModel)]="product.preco">
+    </div>
+
+  </div>
+
+  <button pButton label="Salvar" icon="pi pi-save" (click)="save()"></button>
+</div>
