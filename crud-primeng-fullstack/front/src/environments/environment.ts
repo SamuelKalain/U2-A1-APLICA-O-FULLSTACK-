@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'https://ideal-eureka-x596jvq7pxp4f6gv6-3000.app.github.dev',
   viaCepUrl: 'https://viacep.com.br/ws'
 };
 

@@ -21,7 +21,7 @@ export class ProductsFormComponent implements OnInit {
     private productService: ProductService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
@@ -45,4 +45,9 @@ export class ProductsFormComponent implements OnInit {
       });
     }
   }
+
+  cancel() {
+    this.router.navigate(['/products/list']);
+  }
+
 }
