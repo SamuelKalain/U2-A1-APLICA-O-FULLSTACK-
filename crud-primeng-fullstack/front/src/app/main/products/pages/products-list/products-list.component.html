@@ -1,0 +1,30 @@
+<div class="container">
+  <h2>Produtos</h2>
+
+  <button (click)="create()">➕ Novo Produto</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Preço</th>
+        <th>Categoria</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let p of products">
+        <td>{{ p.nome }}</td>
+        <td>{{ p.descricao }}</td>
+        <td>R$ {{ p.preco }}</td>
+        <td>{{ p.categoria }}</td>
+        <td>
+          <button (click)="edit(p.id)">✏ Editar</button>
+          <button (click)="delete(p.id)">🗑 Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -11,8 +11,8 @@ import { DialogModule } from 'primeng/dialog';
 // [Samuel Kalain]
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductListComponent } from './product-list/product-list.component';
-import { ProductFormComponent } from './product-form/product-form.component';
+import { ProductsListComponent } from './pages/products-list/products-list.component';
+import { ProductsFormComponent } from './pages/products-form/products-form.component';
 import { ProductsRoutingModule } from './products-routing.module';
 import { FormsModule } from '@angular/forms';
 
@@ -23,10 +23,12 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 
+
+
 @NgModule({
   declarations: [
-    ProductListComponent,
-    ProductFormComponent
+    ProductsListComponent,
+    ProductsFormComponent,
   ],
   imports: [
     CommonModule,

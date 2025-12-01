@@ -1,129 +1,42 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
-import { firstValueFrom } from 'rxjs';
-import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
-
-interface LoginCredentials {
-  username: string;
-  password: string;
-}
-
-interface LoginResponse {
-  token: string;
-}
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private tokenKey = 'token';
-  private apiUrl = environment.baseUrl + '/auth'; // ajuste para a URL do seu backend
+  private apiUrl = 'https://ideal-eureka-x596jvq7pxp4f6gv6-3000.app.github.dev/auth';
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {
-    this.checkToken(); // Verifica se há um token válido e conecta o WebSocket após refresh
-  }
+  constructor(private http: HttpClient, private router: Router) {}
 
-  // Método de login
-  async login(credentials: LoginCredentials): Promise<string> {
-    try {
-      // Make sure the endpoint matches your backend API
-      const response = await firstValueFrom(
-        this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials)
+  // LOGIN (RETORNA OBSERVABLE)
+  login(username: string, password: string) {
+    return this.http
+      .post<any>(`${this.apiUrl}/login`, { username, password })
+      .pipe(
+        tap((res) => {
+          localStorage.setItem(this.tokenKey, res.token);
+        })
       );
-
-      // Make sure the token is valid before saving it
-      if (response && response.token) {
-        await this.setToken(response.token);
-
-        return response.token;
-      } else {
-        throw new Error('Invalid token received from server');
-      }
-    } catch (error) {
-      console.error('Login error:', error);
-      throw error;
-    }
   }
 
-  // Salvar o token no localStorage
-  async setToken(token: string): Promise<void> {
-    if (!token) {
-      console.error('Attempting to set empty token');
-      return;
-    }
-    localStorage.setItem(this.tokenKey, token);
-  }
-
+  // PEGAR TOKEN
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
 
-  removeToken(): void {
-    localStorage.removeItem(this.tokenKey);
-  }
-
-  // Método de logout
+  // LOGOUT
   logout(): void {
-    // Desconectar o WebSocket ao deslogar
-    console.log('Desconectando WebSocket ao fazer logout...');
-
-    // Remover o token
-    this.removeToken();
+    localStorage.removeItem(this.tokenKey);
     this.router.navigate(['/auth/login']);
-    window.location.reload();
   }
 
-  // Verifica se o usuário está autenticado
+  // VERIFICA SE ESTÁ AUTENTICADO
   isAuthenticated(): boolean {
-    const token = this.getToken();
-    if (!token) {
-      return false;
-    }
-
-    try {
-      // Safe token validation
-      const decodedToken = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
-
-      // Check if token has exp claim and is not expired
-      if (decodedToken && decodedToken.exp && decodedToken.exp > currentTime) {
-        return true;
-      }
-      return false;
-    } catch (error) {
-      console.error('Token validation error:', error);
-      this.removeToken(); // Clear invalid token
-      return false;
-    }
+    return !!this.getToken();
   }
-
-  // Checar se o token é válido ao iniciar o serviço
-  private checkToken(): void {
-    const token = this.getToken();
-    if (token) {
-      try {
-        const decodedToken: any = jwtDecode(token);
-        const expirationDate = new Date(decodedToken.exp * 1000);
-
-        if (expirationDate < new Date()) {
-          this.logout();
-        } else {
-          // Conectar ao WebSocket se o token for válido
-          console.log('Reconectando WebSocket após refresh, token válido...');
-        }
-      } catch (error) {
-        console.error('Token validation error:', error);
-        this.logout();
-      }
-    }
-  }
-
 }
-
-
 

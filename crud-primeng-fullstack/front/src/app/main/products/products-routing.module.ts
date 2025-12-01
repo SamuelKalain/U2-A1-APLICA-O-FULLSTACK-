@@ -3,13 +3,13 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProductListComponent } from './product-list/product-list.component';
-import { ProductFormComponent } from './product-form/product-form.component';
+import { ProductsListComponent } from './pages/products-list/products-list.component';
+import { ProductsFormComponent } from './pages/products-form/products-form.component';
 
 const routes: Routes = [
-  { path: '', component: ProductListComponent },
-  { path: 'new', component: ProductFormComponent },
-  { path: 'edit/:id', component: ProductFormComponent }
+  { path: 'list', component: ProductsListComponent },
+  { path: 'form', component: ProductsFormComponent },
+  { path: 'form/:id', component: ProductsFormComponent },
 ];
 
 @NgModule({

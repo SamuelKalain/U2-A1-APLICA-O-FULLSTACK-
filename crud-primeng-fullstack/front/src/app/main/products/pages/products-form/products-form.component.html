@@ -1,0 +1,26 @@
+<div class="container">
+
+  <h2>{{ id ? 'Editar Produto' : 'Novo Produto' }}</h2>
+
+  <form (ngSubmit)="save()">
+
+    <label>Nome</label>
+    <input [(ngModel)]="product.nome" name="nome" required />
+
+    <label>Descrição</label>
+    <input [(ngModel)]="product.descricao" name="descricao" />
+
+    <label>Preço</label>
+    <input type="number" [(ngModel)]="product.preco" name="preco" required />
+
+    <label>Categoria</label>
+    <select [(ngModel)]="product.categoria" name="categoria">
+      <option value="pizza">Pizza</option>
+      <option value="bebida">Bebida</option>
+      <option value="sobremesa">Sobremesa</option>
+    </select>
+
+    <button type="submit">Salvar</button>
+
+  </form>
+</div>

@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppLayoutModule } from './layout/app.layout.module';
 import { NotfoundComponent } from './demo/components/notfound/notfound.component';
+
 import { ProductService } from './demo/service/product.service';
 import { PetService } from './main/pet/services/pet.service';
 import { CountryService } from './demo/service/country.service';
@@ -12,22 +13,42 @@ import { EventService } from './demo/service/event.service';
 import { IconService } from './demo/service/icon.service';
 import { NodeService } from './demo/service/node.service';
 import { PhotoService } from './demo/service/photo.service';
+
 import { AuthService } from './main/middleware/auth/auth.service';
+
 import { MessageService } from 'primeng/api';
+
+// ⭐ IMPORTANTE: adicionar módulo HTTP (se ainda não tiver)
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+// ⭐ IMPORTAR O INTERCEPTOR
+import { TokenInterceptor } from './middleware/auth/token.interceptor';
 
 @NgModule({
     declarations: [
-        AppComponent, NotfoundComponent
+        AppComponent,
+        NotfoundComponent
     ],
     imports: [
         AppRoutingModule,
-        AppLayoutModule
+        AppLayoutModule,
+        HttpClientModule         // ⭐ NECESSÁRIO PARA API
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
+
+        // Serviços existentes
         CountryService, CustomerService, EventService, IconService, NodeService,
-        PhotoService, ProductService, PetService, AuthService, MessageService
+        PhotoService, ProductService, PetService, AuthService, MessageService,
+
+        // ⭐ REGISTRAR O INTERCEPTOR
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptor,
+            multi: true
+        }
     ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
+

@@ -1,38 +1,33 @@
-import {environment} from '../../../../environments/environment'
-
-// products.service.ts - Serviço de Produtos (Pizzaria)
-// [Samuel Kalain]
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Product } from '../models/products';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductsService {
+export class ProductService {
 
-  private apiUrl = 'http://localhost:3000/products';
+  private apiUrl = environment.baseUrl + '/products';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  findAll() {
-    return this.http.get<Product[]>(this.apiUrl);
+  getAll() {
+    return this.http.get(this.apiUrl);
   }
 
-  findOne(id: string) {
-    return this.http.get<Product>(`${this.apiUrl}/${id}`);
+  getById(id: number) {
+    return this.http.get(`${this.apiUrl}/${id}`);
   }
 
-  create(data: Product) {
-    return this.http.post<Product>(this.apiUrl, data);
+  create(data: any) {
+    return this.http.post(this.apiUrl, data);
   }
 
-  update(id: string, data: Product) {
-    return this.http.put<Product>(`${this.apiUrl}/${id}`, data);
+  update(id: number, data: any) {
+    return this.http.put(`${this.apiUrl}/${id}`, data);
   }
 
-  delete(id: string) {
+  delete(id: number) {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }
