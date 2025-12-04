@@ -39,3 +39,7 @@ module.exports = {
     updateProduct,
     deleteProduct
 };
+
+
+
+// [SAMUEL KALAIN] RECEBIMENTOS DAS INFORMAÇÕES DOS PRODUTOS

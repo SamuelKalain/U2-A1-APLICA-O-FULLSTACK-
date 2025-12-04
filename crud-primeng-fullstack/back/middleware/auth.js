@@ -14,3 +14,6 @@ function authenticateToken(req, res, next) {
 }
 
 module.exports = authenticateToken;
+
+
+// [SAMUEL KALAIN] VALIDAÇÃO DO TOKEN

@@ -18,3 +18,6 @@ import { RegisterComponent } from './register/register.component';
   ]
 })
 export class AuthModule {}
+
+
+// fiz a implementação das rotas [SAMUEL KALAIN]

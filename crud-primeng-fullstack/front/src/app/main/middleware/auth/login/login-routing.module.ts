@@ -9,3 +9,6 @@ import { LoginComponent } from './login.component';
     exports: [RouterModule]
 })
 export class LoginRoutingModule { }
+
+
+// [SAMUEL KALAIN] LINKAR ROTA DO LOGIN

@@ -19,7 +19,7 @@ export class RegisterComponent {
 
     register() {
         const user = {
-            username: this.email,  // <-- O BACK-END USA "username"
+            username: this.email,  
             password: this.password
         };
 
@@ -38,3 +38,5 @@ export class RegisterComponent {
     }
 
 }
+
+//[SAMUEL KALAIN]
