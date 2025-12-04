@@ -10,7 +10,7 @@ export class AuthService {
   private tokenKey = 'token';
   private apiUrl = 'https://ideal-eureka-x596jvq7pxp4f6gv6-3000.app.github.dev/auth';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
   // LOGIN (RETORNA OBSERVABLE)
   login(username: string, password: string) {
@@ -22,6 +22,11 @@ export class AuthService {
         })
       );
   }
+
+  register(data: any) {
+    return this.http.post(`${this.apiUrl}/register`, data);
+  }
+
 
   // PEGAR TOKEN
   getToken(): string | null {

@@ -5,27 +5,26 @@
     <form (ngSubmit)="login()">
       <div class="form-group">
         <label>Usuário</label>
-        <input
-          type="text"
-          [(ngModel)]="username"
-          name="username"
-          required
-        />
+        <input type="text" [(ngModel)]="username" name="username" required />
       </div>
 
       <div class="form-group">
         <label>Senha</label>
-        <input
-          type="password"
-          [(ngModel)]="password"
-          name="password"
-          required
-        />
+        <input type="password" [(ngModel)]="password" name="password" required />
       </div>
 
       <button type="submit" [disabled]="loading">
         {{ loading ? 'Entrando...' : 'Entrar' }}
       </button>
+
+      <button type="button" routerLink="/auth/register">
+        Criar Conta
+      </button>
+
+
+
+
+
     </form>
 
     <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
